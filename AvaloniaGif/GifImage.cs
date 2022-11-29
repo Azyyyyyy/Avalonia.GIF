@@ -35,7 +35,7 @@ namespace AvaloniaGif
         public static readonly StyledProperty<Stretch> StretchProperty =
             AvaloniaProperty.Register<GifImage, Stretch>("Stretch");
 
-        private RenderTargetBitmap backingRTB;
+        private RenderTargetBitmap? backingRTB;
         private bool _hasNewSource;
         private object? _newSource;
         private Stopwatch _stopwatch;
@@ -206,6 +206,7 @@ namespace AvaloniaGif
         {
             gifInstance?.Dispose();
             backingRTB?.Dispose();
+            backingRTB = null;
         }
 
         private static void SourceChanged(AvaloniaPropertyChangedEventArgs e)

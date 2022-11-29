@@ -15,6 +15,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using Avalonia.Logging;
 using Avalonia.Media.Imaging;
 using static AvaloniaGif.Extensions.StreamExtensions;
 
@@ -393,6 +394,28 @@ namespace AvaloniaGif.Decoding
                         (uint) _backBufferBytes);
                 _hasNewFrame = false;
             }
+        }
+
+        public static bool IsGif(Stream fileStream)
+        {
+            GifDecoder? decoder = null;
+            try
+            {
+                decoder = new GifDecoder(fileStream, CancellationToken.None);
+                decoder.ProcessHeaderData();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Logger.TryGet(LogEventLevel.Error, nameof(GifDecoder))
+                    ?.Log(decoder, "Something happened with decoding: {0}", e);
+            }
+            finally
+            {
+                decoder?.Dispose();
+            }
+
+            return false;
         }
 
         /// <summary>
