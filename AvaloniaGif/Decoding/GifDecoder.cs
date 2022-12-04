@@ -402,7 +402,6 @@ namespace AvaloniaGif.Decoding
             try
             {
                 decoder = new GifDecoder(fileStream, CancellationToken.None);
-                decoder.ProcessHeaderData();
                 return true;
             }
             catch (Exception e)
